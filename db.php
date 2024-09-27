@@ -12,11 +12,23 @@
             }
         }
         public function insert($username, $name, $email, $phone){
-            $sql="INSERT INTO users (username, name, email, phone) VALUES (:username, :name, :email, :phone)";
-            $stmt=$this->conn->prepare($sql);
+            $sql = "INSERT INTO users (username, name, email, phone) VALUES (:username, :name, :email, :phone)";
+            $stmt = $this->conn->prepare($sql);
             $stmt->execute(['username'=>$username, 'name'=>$name, 'email'=>$email, 'phone'=>$phone]);
             return true;
         }
+        public function read(){
+            $data = array();
+            $sql = "SELECT * FROM users";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach($result as $row){
+                $data[] = $row;
+            }
+            return $data;
+        }
     }
     $obj = new Database();
+    print_r($obj->read());
 ?>
