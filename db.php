@@ -28,7 +28,32 @@
             }
             return $data;
         }
+        public function getUserById($id){
+            $sql = "SELECT * FROM users WHERE id = :id";
+            $stmt = $this->conn-prepare($stmt);
+            $stmt->execute(['id'=>$id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        }
+        public function update($id, $username, $name, $email, $phone){
+            $sql = "UPDATE users SET username=:username, name=:name, email=:email, phone=:phone WHERE id=:id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->exacute(['username'=>$username, 'name'=>$name, 'email'=>$email, 'phone'=>$phone]);
+            return true;
+        }
+        public function delete($id){
+            $sql = "DELETE users WHERE id=:id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(['id'=>$id]);
+            return true;
+        }
+        public function totalRowCount(){
+            $sql = "SELECT * FROM users";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $t_row = $stmt->rowCount();
+            return $t_row;
+        }
     }
     $obj = new Database();
-    print_r($obj->read());
 ?>
