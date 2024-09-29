@@ -75,36 +75,8 @@
         <hr class="my-1">
         <div class="row">
             <div class="table-responsive" id="showUser">
-            <div class="col-lg-12">
-                <table class="table table-striped table-sm table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Id</th>
-                            <th class="text-center">Username</th>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Email</th>
-                            <th class="text-center">Phone</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php for($i=1;$i<100;$i++): ?>
-                            <tr class="text-center text-secondary">
-                                <td class="text-center"><?= $i ?></td>
-                                <td>User <?= $i ?></td>
-                                <td>Name <?= $i ?></td>
-                                <td>rrhimel<?= $i ?>@gmail.com</td>
-                                <td class="text-center">01641022335</td>
-                                <td class="text-center">
-                                    <a href="#" title="ViewDetails" class="text-success"><i class="fa fa-info-circle fa-lg"></i></a>&nbsp;
-                                    <a href="#" title="Edit" class="text-primary"><i class="fa fa-edit fa-lg"></i></a>&nbsp;
-                                    <a href="#" title="Delete" class="text-danger"><i class="fa fa-trash fa-lg"></i></a>
-                                </td>
-                            </tr>
-                        <?php endfor; ?>
-                    </tbody>
-                </table>
-            </div>
+                <div class="col-lg-12">           
+                </div>
             </div>
         </div>
     </div>
@@ -115,8 +87,40 @@
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.bootstrap5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script> 
-        new DataTable('table');
+        $(document).ready(function(){
+            showAllUsers();
+            function showAllUsers(){
+                $.ajax({
+                    url: "action.php",
+                    type: "POST",
+                    data: {action:"view"},
+                    success:function(response){
+                        $("#showUser").html(response);
+                        $("table").DataTable();
+                    }
+                });
+            }
+            $("#insert").click(function(e){
+                e.preventDefault();
+                if($("#form-data")[0].checkValidity()){
+                    $.ajax({
+                        url: "action.php",
+                        type: "POST",
+                        data: $("#form-data").serialize()+"&action=insert",
+                        success:function(response){
+                            Swal.fire({
+                                title: 'Users Added Successfulyy',
+                                icon: 'success'
+                            })
+                            $("#form-data")[0].reset();
+                            showAllUsers();
+                        }
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

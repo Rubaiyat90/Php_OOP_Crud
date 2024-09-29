@@ -55,5 +55,4 @@
             return $t_row;
         }
     }
-    $obj = new Database();
 ?>
