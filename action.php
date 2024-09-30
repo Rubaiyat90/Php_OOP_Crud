@@ -66,4 +66,9 @@
         $id = $_POST['delete_id'];
         $db->delete($id);
     }
+    if(isset($_POST['info_id'])){
+        $id = $_POST['info_id'];
+        $row = $db->getUserById($id);
+        echo json_encode($row);
+    }
 ?>

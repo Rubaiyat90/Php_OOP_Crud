@@ -217,6 +217,24 @@
                     }
                 });
             });
+            $("body").on("click",".infoBtn",function(e){
+                e.preventDefault();
+                info_id = $(this).attr('id');
+                $.ajax({
+                    url: "action.php",
+                    type: "POST",
+                    data: {info_id: info_id},
+                    success:function(response){
+                        data = JSON.parse(response);
+                        Swal.fire({
+                            title: '<strong>User info: </strong>',
+                            type: 'info',
+                            html: '<br>Id: '+data.id+'<br>Username: '+data.username+'<br>Name: '+data.name+'<br>Email: '+data.email+'<br>Phone: '+data.phone+'<br><br>',
+                            showCancelButton: true
+                        })
+                    }
+                });
+            });
         });
     </script>
 </body>
