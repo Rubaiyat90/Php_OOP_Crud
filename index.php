@@ -141,7 +141,7 @@
                         data: $("#form-data").serialize()+"&action=insert",
                         success:function(response){
                             Swal.fire({
-                                title: 'Users Added Successfulyy',
+                                title: 'Users Added Successfully',
                                 icon: 'success'
                             })
                             $("#addModal").modal('hide');
@@ -178,7 +178,7 @@
                         data: $("#edit-form-data").serialize()+"&action=update",
                         success:function(response){
                             Swal.fire({
-                                title: 'Users Updated Successfulyy',
+                                title: 'Users Updated Successfully',
                                 icon: 'success'
                             })
                             $("#editModal").modal('hide');
@@ -187,6 +187,35 @@
                         }
                     });
                 }
+            });
+            $("body").on("click",".deleteBtn",function(e){
+                e.preventDefault();
+                var tr = $(this).closest('tr');
+                delete_id = $(this).attr('id');
+                Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: "action.php",
+                            type: "POST",
+                            data: {delete_id: delete_id},
+                            success:function(response){
+                                Swal.fire({
+                                title: 'Users Deleted Successfully',
+                                icon: 'success'
+                                })
+                                showAllUsers();
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>

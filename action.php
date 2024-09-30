@@ -28,7 +28,7 @@
                                     <td class="text-center">
                                         <a href="#" title="ViewDetails" class="text-success infoBtn" id="'.$row['id'].'"><i class="fa fa-info-circle fa-lg"></i></a>&nbsp;
                                         <a href="#" title="Edit" class="text-primary editBtn" data-bs-toggle="modal" data-bs-target="#editModal" id="'.$row['id'].'"><i class="fa fa-edit fa-lg"></i></a>&nbsp;
-                                        <a href="#" title="Delete" class="text-danger deleteBtn" data-toggle="modal" data-target="#deleteModal" id="'.$row['id'].'"><i class="fa fa-trash fa-lg"></i></a>
+                                        <a href="#" title="Delete" class="text-danger deleteBtn" id="'.$row['id'].'"><i class="fa fa-trash fa-lg"></i></a>
                                     </td>
                                 </tr>';
             }
@@ -61,5 +61,9 @@
         $phone = $_POST['phone'];
 
         $db->update($id, $username, $name, $email, $phone);
+    }
+    if(isset($_POST['delete_id'])){
+        $id = $_POST['delete_id'];
+        $db->delete($id);
     }
 ?>

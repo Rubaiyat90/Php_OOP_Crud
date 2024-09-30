@@ -42,7 +42,7 @@
             return true;
         }
         public function delete($id){
-            $sql = "DELETE users WHERE id=:id";
+            $sql = "DELETE FROM users WHERE id=:id";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute(['id'=>$id]);
             return true;
