@@ -30,7 +30,7 @@
         }
         public function getUserById($id){
             $sql = "SELECT * FROM users WHERE id = :id";
-            $stmt = $this->conn-prepare($stmt);
+            $stmt = $this->conn->prepare($sql);
             $stmt->execute(['id'=>$id]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result;
@@ -38,7 +38,7 @@
         public function update($id, $username, $name, $email, $phone){
             $sql = "UPDATE users SET username=:username, name=:name, email=:email, phone=:phone WHERE id=:id";
             $stmt = $this->conn->prepare($sql);
-            $stmt->exacute(['username'=>$username, 'name'=>$name, 'email'=>$email, 'phone'=>$phone]);
+            $stmt->execute(['id'=>$id, 'username'=>$username, 'name'=>$name, 'email'=>$email, 'phone'=>$phone]);
             return true;
         }
         public function delete($id){

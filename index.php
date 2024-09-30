@@ -6,7 +6,7 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
 </head>
 <body>
@@ -61,6 +61,37 @@
         </div>
     </div>
 
+    <div class="modal" id="editModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update user details</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body px-4">
+                    <form action="" method="post" id="edit-form-data">
+                        <input type="hidden" name="id" id="id">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="username" id="username" required><br>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="name" id="name" required><br>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" id="email" required><br>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="phone" id="phone" required><br>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" class="form-control" name="update" id="update" value="Update User">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -81,9 +112,8 @@
         </div>
     </div>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.bootstrap5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -114,7 +144,45 @@
                                 title: 'Users Added Successfulyy',
                                 icon: 'success'
                             })
+                            $("#addModal").modal('hide');
                             $("#form-data")[0].reset();
+                            showAllUsers();
+                        }
+                    });
+                }
+            });
+            $("body").on("click",".editBtn",function(e){
+                e.preventDefault();
+                edit_id = $(this).attr('id');
+                $.ajax({
+                    url: "action.php",
+                    type: "POST",
+                    data: {edit_id: edit_id},
+                    success:function(response){
+                        data = JSON.parse(response);
+                        console.log(data);
+                        $("#id").val(data.id);
+                        $("#username").val(data.username);
+                        $("#name").val(data.name);
+                        $("#email").val(data.email);
+                        $("#phone").val(data.phone);
+                    }
+                });
+            });
+            $("#update").click(function(e){
+                e.preventDefault();
+                if($("#edit-form-data")[0].checkValidity()){
+                    $.ajax({
+                        url: "action.php",
+                        type: "POST",
+                        data: $("#edit-form-data").serialize()+"&action=update",
+                        success:function(response){
+                            Swal.fire({
+                                title: 'Users Updated Successfulyy',
+                                icon: 'success'
+                            })
+                            $("#editModal").modal('hide');
+                            $("#edit-form-data")[0].reset();
                             showAllUsers();
                         }
                     });
